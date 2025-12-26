@@ -1,0 +1,214 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+@section Scripts {
+
+    @* <script>
+
+        const input = document.getElementById("display");
+        const errorDiv = document.getElementById("error");
+        const form = document.getElementById("CalcForm");
+
+        form.addEventListener("submit", function (e) {
+            e.preventDefault();
+
+            errorDiv.innerText = "";
+
+            fetch("@Url.Action("Index")", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(input.value)
+            })
+            .then(res => res.json())
+            .then(data => {
+                if(data.success){
+                    input.value = data.result;
+                }else{
+                    errorDiv.innerText = data.error;
+                }
+            })
+            .catch(() => {
+                errorDiv.innerText = "Unexpected error. Try again.";
+            });
+        });
+
+    </script> *@
+
+    <script>
+
+        const input = document.getElementById("display");
+        const errorDiv = document.getElementById("error");
+        const form = document.getElementById("CalcForm");
+
+        form.addEventListener("submit", function (e) {
+            e.preventDefault();
+
+            errorDiv.innerText = "";
+
+            $.ajax({
+                url: "@Url.Action("Index")",
+                type: "POST",
+                data: JSON.stringify(input.value),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function(response) {
+                    if(response.success){
+                        input.value = response.result;
+                    }else{
+                        errorDiv.innerText = response.error;
+                    }
+                    
+                },
+                error: function(xhr) {
+                    errorDiv.innerText = xhr.responseText || "Unexpected Error";
+                }
+            });
+            
+        });
+
+    </script>
+
+    <script>
+            function addNumber(num) {
+          const input = document.getElementById("display");
+          input.value += num;      // append the number to the input value
+        }
+
+        function backspace() {
+            const input = document.getElementById("display");
+            input.value = input.value.slice(0, -1);
+        }
+
+            function clearDisplay() {
+            document.getElementById("display").value = "";
+        }
+    </script>
+}
+
+<form class="d-flex justify-content-center" id="CalcForm" method="post" asp-action="Index">
+    <div style="width: 400px; ">
+        <input class="form-control mt-2" type="text" id="display" name="infix" placeholder="Input Your Expression" readonly value="" />
+        
+        <div id="error" class="text-danger text-sm-center mt-1"></div>
+    </div>
+    
+</form>
+
+
+
+<div class="d-flex justify-content-center align-items-center btn-group-vertical mt-2">
+    <div>
+        <button type="button" 
+            class="btn m-1 btn-light" style="width: 75px"
+            onclick="addNumber('1')">
+            1
+        </button>
+        <button type="button" 
+            class="btn m-1 btn-light" style="width: 75px"
+                onclick="addNumber('2')">
+            2
+        </button>
+        <button type="button" 
+            class="btn m-1 btn-light" style="width: 75px"
+            onclick="addNumber('3')">
+            3
+        </button>
+        <button type="button" 
+            class="btn m-1 btn-light" style="width: 75px"
+            onclick="addNumber('+')">
+            +
+        </button>
+        <button type="button"
+                class="btn m-1 btn-light" style="width: 75px"
+                onclick="addNumber('/')">
+            /
+        </button>
+    </div>
+
+    <div>
+        <button type="button"
+                class="btn m-1 btn-light" style="width: 75px"
+                onclick="addNumber('4')">
+            4
+        </button>
+        <button type="button"
+                class="btn m-1 btn-light" style="width: 75px"
+                onclick="addNumber('5')">
+            5
+        </button>
+        <button type="button"
+                class="btn m-1 btn-light" style="width: 75px"
+                onclick="addNumber('6')">
+            6
+        </button>
+        <button type="button"
+                class="btn m-1 btn-light" style="width: 75px"
+                onclick="addNumber('-')">
+            -
+        </button>
+        <button type="button"
+                class="btn m-1 btn-light" style="width: 75px"
+                onclick="addNumber('(')">
+            (
+        </button>
+    </div>
+    <div>
+        <button type="button"
+                class="btn m-1 btn-light" style="width: 75px"
+                onclick="addNumber('7')">
+            7
+        </button>
+        <button type="button"
+                class="btn m-1 btn-light" style="width: 75px"
+                onclick="addNumber('8')">
+            8
+        </button>
+        <button type="button"
+                class="btn m-1 btn-light" style="width: 75px"
+                onclick="addNumber('9')">
+            9
+        </button>
+        <button type="button"
+                class="btn m-1 btn-light" style="width: 75px"
+                onclick="addNumber('*')">
+            *
+        </button>
+        <button type="button"
+                class="btn m-1 btn-light" style="width: 75px"
+                onclick="addNumber(')')">
+            )
+        </button>
+    </div>
+    <div>
+        <button type="button"
+                class="btn m-1 btn-danger" style="width: 75px"
+                onclick="clearDisplay()">
+            CE
+        </button>
+        <button type="button"
+                class="btn m-1 btn-light" style="width: 75px"
+                onclick="addNumber('0')">
+            0
+        </button>
+        <button type="button"
+                class="btn m-1 btn-light" style="width: 75px"
+                onclick="addNumber('.')">
+            .
+        </button>
+        <button type="submit" form="CalcForm"
+                class="btn m-1 btn-primary" style="width: 75px"
+                >
+            =
+        </button>
+        <button type="button"
+                class="btn m-1 btn-dark" style="width: 75px"
+                onclick="backspace()">
+            C
+        </button>
+    </div>
+    
+</div>
+
