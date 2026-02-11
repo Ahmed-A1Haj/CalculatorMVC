@@ -2,6 +2,65 @@
     ViewData["Title"] = "Home Page";
 }
 
+
+<div style="width: 550px; padding-left: 9rem;">
+    <input class="form-control mt-2" type="text" id="display" name="infix" placeholder="Input Your Expression" readonly value="" />
+    
+    <div id="error" class="text-danger text-sm-center mt-1"></div>
+</div>
+
+@{
+    List<List<char>> structure = [
+        ['1', '2', '3', '+', '/'],
+        ['4', '5', '6', '-', '('],
+        ['7', '8', '9', '*', ')']
+    ];
+}
+
+<div class="d-flex justify-content-center align-items-center btn-group-vertical mt-2">
+    @for(int i = 0; i < structure.Count; i++)
+    {
+        <div>
+            @foreach(char num in structure[i])
+            {
+                <button type="button"
+                        class="btn m-1 btn-light" style="width: 75px"
+                        onclick="addNumber('@num')">
+                    @num
+                </button>
+            }
+        </div>
+    }
+    <div>
+        <button type="button"
+                class="btn m-1 btn-danger" style="width: 75px"
+                onclick="clearDisplay()">
+            CE
+        </button>
+        <button type="button"
+                class="btn m-1 btn-light" style="width: 75px"
+                onclick="addNumber('0')">
+            0
+        </button>
+        <button type="button"
+                class="btn m-1 btn-light" style="width: 75px"
+                onclick="addNumber('.')">
+            .
+        </button>
+        <button type="button" id="equal"
+                class="btn m-1 btn-primary" style="width: 75px"
+                >
+            =
+        </button>
+        <button type="button"
+                class="btn m-1 btn-dark" style="width: 75px"
+                onclick="backspace()">
+            C
+        </button>
+    </div>
+    
+</div>
+
 @section Scripts {
 
     @* <script>
@@ -43,7 +102,11 @@
         const errorDiv = document.getElementById("error");
         const form = document.getElementById("CalcForm");
 
-        form.addEventListener("submit", function (e) {
+        // input.on("click")
+        // $('.')
+        // $('#').value()
+
+        $('#equal').on("click", function (e) {
             e.preventDefault();
 
             errorDiv.innerText = "";
@@ -60,21 +123,21 @@
                     }else{
                         errorDiv.innerText = response.error;
                     }
-                    
+
                 },
                 error: function(xhr) {
                     errorDiv.innerText = xhr.responseText || "Unexpected Error";
                 }
             });
-            
+
         });
 
     </script>
 
     <script>
-            function addNumber(num) {
-          const input = document.getElementById("display");
-          input.value += num;      // append the number to the input value
+        function addNumber(num) {
+            const input = document.getElementById("display");
+            input.value += num;      // append the number to the input value
         }
 
         function backspace() {
@@ -82,133 +145,8 @@
             input.value = input.value.slice(0, -1);
         }
 
-            function clearDisplay() {
+        function clearDisplay() {
             document.getElementById("display").value = "";
         }
     </script>
 }
-
-<form class="d-flex justify-content-center" id="CalcForm" method="post" asp-action="Index">
-    <div style="width: 400px; ">
-        <input class="form-control mt-2" type="text" id="display" name="infix" placeholder="Input Your Expression" readonly value="" />
-        
-        <div id="error" class="text-danger text-sm-center mt-1"></div>
-    </div>
-    
-</form>
-
-
-
-<div class="d-flex justify-content-center align-items-center btn-group-vertical mt-2">
-    <div>
-        <button type="button" 
-            class="btn m-1 btn-light" style="width: 75px"
-            onclick="addNumber('1')">
-            1
-        </button>
-        <button type="button" 
-            class="btn m-1 btn-light" style="width: 75px"
-                onclick="addNumber('2')">
-            2
-        </button>
-        <button type="button" 
-            class="btn m-1 btn-light" style="width: 75px"
-            onclick="addNumber('3')">
-            3
-        </button>
-        <button type="button" 
-            class="btn m-1 btn-light" style="width: 75px"
-            onclick="addNumber('+')">
-            +
-        </button>
-        <button type="button"
-                class="btn m-1 btn-light" style="width: 75px"
-                onclick="addNumber('/')">
-            /
-        </button>
-    </div>
-
-    <div>
-        <button type="button"
-                class="btn m-1 btn-light" style="width: 75px"
-                onclick="addNumber('4')">
-            4
-        </button>
-        <button type="button"
-                class="btn m-1 btn-light" style="width: 75px"
-                onclick="addNumber('5')">
-            5
-        </button>
-        <button type="button"
-                class="btn m-1 btn-light" style="width: 75px"
-                onclick="addNumber('6')">
-            6
-        </button>
-        <button type="button"
-                class="btn m-1 btn-light" style="width: 75px"
-                onclick="addNumber('-')">
-            -
-        </button>
-        <button type="button"
-                class="btn m-1 btn-light" style="width: 75px"
-                onclick="addNumber('(')">
-            (
-        </button>
-    </div>
-    <div>
-        <button type="button"
-                class="btn m-1 btn-light" style="width: 75px"
-                onclick="addNumber('7')">
-            7
-        </button>
-        <button type="button"
-                class="btn m-1 btn-light" style="width: 75px"
-                onclick="addNumber('8')">
-            8
-        </button>
-        <button type="button"
-                class="btn m-1 btn-light" style="width: 75px"
-                onclick="addNumber('9')">
-            9
-        </button>
-        <button type="button"
-                class="btn m-1 btn-light" style="width: 75px"
-                onclick="addNumber('*')">
-            *
-        </button>
-        <button type="button"
-                class="btn m-1 btn-light" style="width: 75px"
-                onclick="addNumber(')')">
-            )
-        </button>
-    </div>
-    <div>
-        <button type="button"
-                class="btn m-1 btn-danger" style="width: 75px"
-                onclick="clearDisplay()">
-            CE
-        </button>
-        <button type="button"
-                class="btn m-1 btn-light" style="width: 75px"
-                onclick="addNumber('0')">
-            0
-        </button>
-        <button type="button"
-                class="btn m-1 btn-light" style="width: 75px"
-                onclick="addNumber('.')">
-            .
-        </button>
-        <button type="submit" form="CalcForm"
-                class="btn m-1 btn-primary" style="width: 75px"
-                >
-            =
-        </button>
-        <button type="button"
-                class="btn m-1 btn-dark" style="width: 75px"
-                onclick="backspace()">
-            C
-        </button>
-    </div>
-    
-</div>
-
